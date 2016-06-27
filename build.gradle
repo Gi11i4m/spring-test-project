@@ -1,0 +1,45 @@
+group 'be.cegeka.spring'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+
+// JDK 8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	jcenter()
+	mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.codehaus.jackson', name: 'jackson-core-asl', version: '1.1.0'
+    compile 'org.springframework:spring-context:4.2.6.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+    compile 'javax.servlet:jstl:1.2'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    
+    //include in compile only, exclude in the war
+    providedCompile 'javax.servlet:servlet-api:2.5'
+    
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+gretty {
+  port = 8080
+  contextPath = 'spring-test-project'
+  servletContainer = 'jetty9' // jetty9, tomcat7 or tomcat8
+}
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'org.akhikhl.gretty:gretty:+'
+  }
+}
