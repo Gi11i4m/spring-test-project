@@ -1,15 +1,17 @@
 package be.cegeka.spring.main;
 
+import be.cegeka.spring.main.domain.person.Person;
+import be.cegeka.spring.main.domain.person.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class WelcomeController {
 
 	private final HelloWorldService helloWorldService;
+
+	@Autowired
+	private PersonRepository personRepository;
 
 	@Autowired
 	public WelcomeController(HelloWorldService helloWorldService) {
@@ -29,5 +31,11 @@ public class WelcomeController {
 	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
 	public String helloName(@PathVariable("name") String name) {
 		return helloWorldService.getTitle(name);
+	}
+
+	@RequestMapping(value = "/person/create", method = RequestMethod.POST)
+	public Person createPerson(@RequestBody Person person) {
+		personRepository.save(person);
+		return person;
 	}
 }
