@@ -19,4 +19,10 @@ public class PersonRepository {
     public void delete(Person person) {
         em.remove(person);
     }
+
+    public Person findByName(String name) {
+        return em.createQuery("from Person p where p.name = :name", Person.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 }

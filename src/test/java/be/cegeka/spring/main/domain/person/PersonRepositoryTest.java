@@ -27,7 +27,7 @@ public class PersonRepositoryTest {
     private Person person;
 
     @Test
-    public void saveLoadTest() {
+    public void save_createsId() {
         person = new Person("Jef");
 
         personRepository.save(person);
@@ -35,4 +35,10 @@ public class PersonRepositoryTest {
         assertThat(person.getId()).isNotNull();
     }
 
+    @Test
+    public void findByName() {
+        Person jef = personRepository.save(new Person("Jef"));
+
+        assertThat(personRepository.findByName("Jef")).isEqualTo(jef);
+    }
 }
