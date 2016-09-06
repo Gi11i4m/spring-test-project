@@ -6,8 +6,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -15,6 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {SpringRootConfig.class})
+@Transactional
+@Rollback(false)
 public class PersonRepositoryTest {
 
     @Autowired
@@ -26,7 +30,9 @@ public class PersonRepositoryTest {
     public void saveLoadTest() {
         person = new Person("Jef");
 
-        assertThat(personRepository.save(person).getId()).isNotNull();
+        personRepository.save(person);
+
+        assertThat(person.getId()).isNotNull();
     }
 
 }
