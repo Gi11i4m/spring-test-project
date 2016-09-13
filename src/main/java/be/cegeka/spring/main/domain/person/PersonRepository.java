@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Component
 public class PersonRepository {
@@ -20,9 +21,14 @@ public class PersonRepository {
         em.remove(person);
     }
 
-    public Person findByName(String name) {
+    public List<Person> findByName(String name) {
         return em.createQuery("from Person p where p.name = :name", Person.class)
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultList();
+    }
+
+    public List<Person> getPersons() {
+        return em.createQuery("from Person", Person.class)
+                .getResultList();
     }
 }

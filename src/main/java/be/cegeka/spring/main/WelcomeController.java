@@ -32,10 +32,4 @@ public class WelcomeController {
 	public String helloName(@PathVariable("name") String name) {
 		return helloWorldService.getTitle(name);
 	}
-
-	@RequestMapping(value = "/person/create", method = RequestMethod.POST)
-	public Person createPerson(@RequestBody Person person) {
-		personRepository.save(person);
-		return person;
-	}
 }
